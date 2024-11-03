@@ -42,13 +42,16 @@ class SVC:
         prob.solve()
 
         self.alpha = alpha.value
-        print(alpha.value)
         self.W = np.array([self.y[i] * self.alpha[i] * self.X[i] for i in range(self.n)])
         self.b = (self.y - self.heat_kernel[self.train_nodes, :][:, self.train_nodes] @ (self.y * alpha.value))[0]
 
     def predict(self):
         self.y_pred = self.heat_kernel[:][:, self.train_nodes] @ (self.y * self.alpha) + self.b
         return self.y_pred
+
+    def score(self, labels: list):
+        return np.sum(np.sign(self.y_pred) == labels) / (len(labels))
+
 
 c = SVC(t=3)
 
