@@ -60,7 +60,9 @@ Nós queremos maximizar a largura, isto é, maximizar $\dfrac{2}{||\vec{w}||}$. 
 ### Otimização com Multiplicadores de Lagrange
 Para minimizar $\dfrac{1}{2}||\vec{w}||^2$ com as restrições $y_i (\vec{w} \vec{x_i} + b) - 1 \ge 0$ (as quais garantem que cada amostra estará do lado correto) podemos utilizar Multiplicadores de Lagrange.
 O Lagrangiano é uma expressão da forma $L(x, \lambda) = f(x) - \lambda g(x)$. O valor mínimo é encontrado quando pegamos as derivadas parciais e igualamos a 0.
-$$    L = \dfrac{1}{2}||\vec{w}||^2 - \sum_l a_i (y_i (\vec{x_i}\vec{w} + b) - 1)$$
+
+$$L = \dfrac{1}{2}||\vec{w}||^2 - \sum_l a_i (y_i (\vec{x_i}\vec{w} + b) - 1)$$
+
 Introduzimos $\alpha s$ para cada amostra. A soma é realizada sobre o conjunto de amostras $l$. 
 
 > Note que $\frac{\partial ||\vec{w}||}{\partial \vec{w}} = \frac{\vec{w}}{||\vec{w}||}$. 
