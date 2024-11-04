@@ -1,5 +1,9 @@
 # Support Vector Machines para Classificação de Nós em Redes utilizando Kernel de Difusão
-Support Vector Machines são uma das minhas ideias favoritas no contexto de Aprendizado de Máquina. É um conceito muito simples que combinado com matemática, se torna uma ferramenta poderosa. O cientista soviético Vladimir Vapnik trouxe a ideia original nos anos 60 mas apenas em 1992, um grupo de cientistias foram capazes de encontrar um truque que transformasse o modelo linear em não linear.
+> Vítor Amorim Fróis
+
+Support Vector Machines são uma das minhas ideias favoritas no contexto de Aprendizado de Máquina. É um conceito muito simples que combinado com matemática, se torna uma ferramenta poderosa. O cientista soviético Vladimir Vapnik trouxe a ideia original nos anos 60 mas apenas em 1992, um grupo de cientistias foram capazes de encontrar um truque que transformasse o modelo linear em não linear. Esse truque permite aplicar o modelo para qualquer tipo de dado desde que haja um kernel adequado. Assim, vamos ver como aplicar o conceito para classificação de nós em grafos.
+
+## Support Vector Machines
 
 Imagine duas classes separáveis que vivem em um espaço qualquer. Para criar um modelo, devemos encontrar a melhor maneira de separá-los. Enquanto Árvores de Decisão e Redes Neurais tem suas ideias, SVM buscam encontrar uma faixa que realize a melhor separação.
 
@@ -136,6 +140,18 @@ Na versão para grafos, a difusão pode ser considerada como um RBF em grafos e 
 $$K=\exp (\Delta)$$
 
 onde $\Delta$ é o Laplaciano da matriz de adjacência. 
+
+### Exemplo: Karate Club
+A rede social Karate Club foi estudada por Zachary por um período de três anos, de 1970 a 1972. A rede captura 34 membros do clube, documentando ligações entre pares de membros que interagiam fora do clube. Durante o estudo surgiu um conflito entre o administrador "John A" (nó 33) e o instrutor "Mr. Hi" (nó 0), o que levou à divisão do clube em dois. Metade dos membros formou um novo clube em torno do Sr. Hi; membros da outra parte encontraram um novo instrutor ou desistiram do caratê. Com base nos dados coletados, Zachary atribuiu corretamente todos os membros do clube, exceto um.
+![Grafo do Karate Club](img/karate.png)
+
+Vamos realizar a difusão no Grafo com $$K=\exp (\Delta)$$
+
+![Difusão no Grafo](img/diffusion.png)
+
+Para realizar a classificação, pegamos o sinal do estado de cada nó.
+
+![Nós classificados](img/classification.png)
 
 ### Referências
 - [StatQuest on SVM](https://www.youtube.com/watch?v=efR1C6CvhmE&)
