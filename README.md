@@ -13,30 +13,27 @@ Nosso objetivo é checar se $\vec{u}$ pertence ao lado direito ou esquerdo da fa
 
 ![Street gutters and $\vec{w}$](img/svm.png)
 
-Assim, para classificar $\vec{u}$ entre classe 1 ou 2, checamos se $\vec{w} \vec{u} \ge c$, onde $c$ is a constant. Considerando $c=-b$, podemos escrever uma regra de decisão:
+Assim, para classificar $\vec{u}$ entre classe 1 ou 2, checamos se $\vec{w} \vec{u} \ge c$, onde $c$ é uma constante. Considerando $c=-b$, podemos escrever uma regra de decisão:
 
-> Se $\vec{w} \vec{u} + b \ge 0$ então $\vec{u}$ pertence a classe 1.
+- Se $\vec{w} \vec{u} + b \ge 0$ então $\vec{u}$ pertence a classe 1.
 
 Ótimo! Mas ainda não sabemos qual valor usar, então devemos introduzir algumas restrições (constraints) a fim de calcular $\vec{w}$ e $b$.
 Considere $x_1$, $x_2$ amostras de classe 1 e 2 respectivamente. Assim,
-$$
-    \vec{w} \vec{x_1} + b \ge 1 \\
-    \vec{w} \vec{x_2} + b \le 1
-$$
+
+$$\vec{w} \vec{x_1} + b \ge 1$$
+
+$$\vec{w} \vec{x_2} + b \le 1$$
 
 Para conveniência introduzimos $y$ de forma que 
-$$
-    x_1 \implies y_i = 1 \\
-    x_2 \implies y_i = -1
-$$
+
+$$x_1 \implies y_i = 1$$
+
+$$x_2 \implies y_i = -1$$
+
 Assim reescrevemos (1) com $y_i$ dos dois lados:
-$$
-    y_i (\vec{w} \vec{x_i} + b) \ge 1 
-$$
+$$y_i (\vec{w} \vec{x_i} + b) \ge 1$$
 Note que amostras nas bordas da faixa tem
-$$
-    y_i (\vec{w} \vec{x_i} + b) = 1
-$$
+$$y_i (\vec{w} \vec{x_i} + b) = 1$$
 
 ### Encontrando a faixa mais larga
 
@@ -49,41 +46,36 @@ O vetor perpendicular que buscamos é $\dfrac{\vec{w}}{||\vec{w}||}$ e a diferen
 ![Visualizing street width](img/street_width.png)
 
 Reescrevendo (1) para amostras nas bordas obtemos
-$$
-    \vec{x_1} = \dfrac{1 - b}{\vec{w}} \\
-    \vec{x_2} = - \dfrac{1 - b}{\vec{w}}
-$$
+
+$$\vec{x_1} = \dfrac{1 - b}{\vec{w}}$$
+
+$$\vec{x_2} = - \dfrac{1 - b}{\vec{w}}$$
 
 E substituindo na fórmula da largura
-$$
-    \text{width} = \dfrac{\vec{w}}{||\vec{w}||}(\dfrac{1 - b}{\vec{w}} + \dfrac{1 - b}{\vec{w}}) = \dfrac{2}{||\vec{w}||}
-$$
+
+$$\text{width} = \dfrac{\vec{w}}{||\vec{w}||}(\dfrac{1 - b}{\vec{w}} + \dfrac{1 - b}{\vec{w}}) = \dfrac{2}{||\vec{w}||}$$
 
 Nós queremos maximizar a largura, isto é, maximizar $\dfrac{2}{||\vec{w}||}$. De forma mais conveniente, podemos minimizar $\dfrac{1}{2}||\vec{w}||^2$.
 
 ### Otimização com Multiplicadores de Lagrange
 Para minimizar $\dfrac{1}{2}||\vec{w}||^2$ com as restrições $y_i (\vec{w} \vec{x_i} + b) - 1 \ge 0$ (as quais garantem que cada amostra estará do lado correto) podemos utilizar Multiplicadores de Lagrange.
 O Lagrangiano é uma expressão da forma $L(x, \lambda) = f(x) - \lambda g(x)$. O valor mínimo é encontrado quando pegamos as derivadas parciais e igualamos a 0.
-$$
-    L = \dfrac{1}{2}||\vec{w}||^2 - \sum_l a_i (y_i (\vec{x_i}\vec{w} + b) - 1) 
-$$
+$$    L = \dfrac{1}{2}||\vec{w}||^2 - \sum_l a_i (y_i (\vec{x_i}\vec{w} + b) - 1)$$
 Introduzimos $\alpha s$ para cada amostra. A soma é realizada sobre o conjunto de amostras $l$. 
 
 > Note que $\frac{\partial ||\vec{w}||}{\partial \vec{w}} = \frac{\vec{w}}{||\vec{w}||}$. 
 
 Ao pegar as derivadas parciais obtemos
-$$
-\dfrac{\partial{L}}{\partial{\vec{w}}} = \vec{w} - \sum_l a_i y_i \vec{x_i} = 0 \implies \vec{w} = \sum_l a_i y_i \vec{x_i} \\
-\dfrac{\partial{L}}{\partial{b}} = \sum_l a_i y_i = 0
-$$
+
+$$\dfrac{\partial{L}}{\partial{\vec{w}}} = \vec{w} - \sum_l a_i y_i \vec{x_i} = 0 \implies \vec{w} = \sum_l a_i y_i \vec{x_i}$$
+
+$$\dfrac{\partial{L}}{\partial{b}} = \sum_l a_i y_i = 0$$
 
 Resumindo, encontramos que o vetor $\vec{w}$ é uma combinação linear das amostras. Podemos substituir as expressões obtidas em L para encontrar:
-$$
-L = \dfrac{1}{2}(\sum_l a_i y_i \vec{x_i}) (\sum_l a_j y_j \vec{x_j}) - (\sum_l a_i y_i \vec{x_i}) (\sum_l a_j y_j \vec{x_j}) + \sum_l a_i 
 
-\\
-L = \sum_l a_i - \dfrac{1}{2}(\sum_l a_i a_j y_i y_j \vec{x_i} \vec{x_j})
-$$
+$$L = \dfrac{1}{2}(\sum_l a_i y_i \vec{x_i}) (\sum_l a_j y_j \vec{x_j}) - (\sum_l a_i y_i \vec{x_i}) (\sum_l a_j y_j \vec{x_j}) + \sum_l a_i$$
+
+$$L = \sum_l a_i - \dfrac{1}{2}(\sum_l a_i a_j y_i y_j \vec{x_i} \vec{x_j})$$
 
 Finalmente! O mais importante aqui é descobrirmos que **a otimização depende apenas do produto escalar dos pares de amostras** ($\vec{x_i} \vec{x_j}$). 
 
@@ -113,24 +105,19 @@ $$
 ### Kernel RBF
 
 O Kernel Radial Basis Function (RBF), generaliza um kernel polinomial para gerar a [relação entre vetores num espaço de dimensão infinita](https://pages.cs.wisc.edu/~matthewb/pages/notes/pdf/svms/RBFKernel.pdf):
-$$
-k(u,v)=\exp{(-\lambda ||\vec{u} \cdot \vec{v}||)}
-$$
+$$k(u,v)=\exp(-\lambda ||\vec{u} \cdot \vec{v}||)$$
 
 ## Formulação Final
 Considere um conjunto de amostras $x$, um kernel $k$. Uma nova amostra $\vec{u}$ é classificada usando
 
-$$
-\text{sgn}(\sum_l a_i y_i k(\vec{x_i}, \vec{u}) + b)
-$$
+$$\text{sgn}(\sum_l a_i y_i k(\vec{x_i}, \vec{u}) + b)$$
 
 onde $\vec{\alpha}$ resolve
 
-$$
-\argmin_{\vec{\alpha}} 
-\sum_l a_i - \dfrac{1}{2}(\sum_l a_i a_j y_i y_j k(\vec{x_i},\vec{x_j})) \newline
-\sum_l a_i y_i = 0
-$$
+$$\text{argmin}_{\vec{\alpha}} 
+\sum_l a_i - \dfrac{1}{2}(\sum_l a_i a_j y_i y_j k(\vec{x_i},\vec{x_j}))$$
+
+$$\sum_l a_i y_i = 0$$
 
 ## Inferência em Grafos
 Em ciência de dados, os dados podem estar estruturados como nós de um grafo e não como vetores. Isso pode acontecer naturalmente, pela discretização de um espaço contínuo ou por que é conveniente.
@@ -144,9 +131,7 @@ Não é um kernel válido :( Podemos encontrar vários problemas. Um exemplo mui
 Para resolver esse problema, utilizamos a difusão em grafos. A difusão é um processo amplamente conhecido na física e pode ser interpretado como o espalhamento de uma substância quando introduzido em um meio. 
 
 Na versão para grafos, a difusão pode ser considerada como um RBF em grafos e representa caminhadas aleatórias em tempo contínuo. 
-$$
-K=\exp (\Delta)
-$$
+$$K=\exp (\Delta)$$
 
 onde $\Delta$ é o Laplaciano da matriz de adjacência. 
 
